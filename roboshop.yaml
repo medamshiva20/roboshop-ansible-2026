@@ -21,8 +21,7 @@
        Component: "{{item}}"
        Environemnt: "{{env}}"
        Name: "{{item}}-{{env}}"
-     loop:
-      - {{ instances }}
+     loop: "{{ instances }}"
      register: ec2_output
 
    - name: Display output of other module in JSON format
