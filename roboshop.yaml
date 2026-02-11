@@ -1,43 +1,41 @@
-- name: create ec2 and r53 records
+- name: create ec2 and route53
   hosts: all
   connection: local
   vars:
-    sg_id: sg-076ec9ad23dab2b28
-    ami_id: ami-0220d79f3f480ecf5
-    domain_name: daws88s.online
-    env: dev
-    instances:
+   sg_id: sg-0e952a919361d18ab
+   ami_id: ami-0220d79f3f480ecf5
+   domain_name: sivadevops.site
+   env: dev
+   instances:
     - mongodb
     - catalogue
   tasks:
-  ### CREATE ###
-  - name: create ec2 instance
-    amazon.aws.ec2_instance:
-      instance_type: "t3.micro"
-      security_group: "{{ sg_id }}"
-      image_id: "{{ ami_id }}"
-      name: "{{ item }}-{{ env }}"
-      wait: false
+   - name: create ec2 instance
+     amazon.aws.ec2_instance:
+      vpc_subnet_id: subnet-0e2d2a34508988aa6
+      instance_type: t2.micro
+      security_group: "{{sg_id}}"
+      image_id: "{{ami_id}}"
+      name: "{{item}}-{{env}}"
       tags:
-        Project: roboshop
-        Component: "{{ item }}"
-        Environment: "{{ env }}"
-        Name: "{{ item }}-{{ env }}"
-    loop: "{{ instances }}"
-    register: ec2_output
-  
-  - name: print the output
-    ansible.builtin.debug:
+       Project: roboshop
+       Component: "{{item}}"
+       Environemnt: "{{env}}"
+       Name: "{{item}}-{{env}}"
+     loop: "{{ instances }}"
+     register: ec2_output
+   
+   - name: print the output
+     ansible.builtin.debug:
       msg: "{{ ec2_output }}"
-
-  - name: create route53 record
-    amazon.aws.route53:
+   - name: create route53 record
+     amazon.aws.route53:
       state: present
-      zone: "{{ domain_name }}"
-      record: "{{ item.item }}-{{ env }}.{{ domain_name }}" # mongodb-dev.daws88s.online, frontend-dev.daws88s.online
+      zone: "{{domain_name}}"
+      record: "{{item.item}}-{{env}}.{{domain_name}}"
       type: A
       ttl: 1
-      value: "{{ item.instances[0].private_ip_address }}"
-      wait: false
-      overwrite: true
-    loop: "{{ ec2_output.results }}" # list
+      value: "{{item.instance[0].private_ip_address}}"
+      wait: true
+     loop: "{{ec2_output.results}}"
+   
