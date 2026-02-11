@@ -6,9 +6,9 @@
    ami_id: ami-0220d79f3f480ecf5
    env: dev
    domain_name: sivadevops.site
-  #  instances:
-  #   - mongodb
-  #   - catalogue
+   instances:
+    - mongodb
+    - catalogue
   tasks:
    - name: create ec2 instances
      amazon.aws.ec2_instance:
@@ -22,11 +22,20 @@
        Catalogue: "{{item}}"
        Environment: "{{env}}"
        Name: "{{item}}-{{env}}"
-     loop:
-      - mongodb
-      - catalogue
+     loop: "{instances}}"
      register: ec2_output
-   
+     
    - name: print the output
      ansible.builtin.debug:
       msg: "{{ec2_output}}"
+     
+   - name: cretae route53 record
+     amazon.aws.route53:
+      state: present
+      ttl: 1
+      type: A
+      zone: "{{domain_name}}"
+      record: "{{item.item}}-{{env}}.{{domain_name}}"
+      value: "{{item.instance[0].private_ip_address}}"
+      wait: true
+     loop: "{{ec2_output.results}}"
