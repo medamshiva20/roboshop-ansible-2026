@@ -1,5 +1,5 @@
 - name: Configure catalogue
-  hosts: yes
+  hosts: catalogue
   become: yes
   tasks:
    - name: Disable default node js module 
