@@ -22,9 +22,9 @@
        Environemnt: "{{env}}"
        Name: "{{item}}-{{env}}"
      loop:
-      - {{instances}}
+      - {{ instances }}
      register: ec2_output
-     
+
    - name: Display output of other module in JSON format
      ansible.builtin.debug:
       msg: "{{ec2-output}}"
