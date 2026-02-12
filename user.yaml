@@ -50,6 +50,11 @@
      community.general.npm:
       path: /app
 
+   - name: Copy user service into systemd folder
+     ansible.builtin.template:
+      src: user.service
+      dest: /etc/systemd/system/user.service
+
    - name: Reload the daemon
      ansible.builtin.systemd:
       daemon_reload: yes
