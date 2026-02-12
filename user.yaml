@@ -32,7 +32,7 @@
    
    - name: Download user code into tmp folder
      ansible.builtin.get_url:
-      url: curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
+      url: curl -L -o https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
       dest: /tmp/user.zip
 
    - name: unarchive user code
