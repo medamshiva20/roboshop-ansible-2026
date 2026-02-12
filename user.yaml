@@ -46,8 +46,8 @@
       path: /app
 
    - name: Reload the daemon
-     ansible.builtin.systemd.service:
-      daemon_reload: true
+     ansible.builtin.systemd:
+      daemon_reload: yes
 
    - name: Start and Enable the user service
      ansible.builtin.service:
