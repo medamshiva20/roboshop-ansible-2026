@@ -33,7 +33,7 @@
      community.general.npm:
       path: /app/
    - name: Create the systemd service 
-     anisble.builtin.copy:
+     ansible.builtin.copy:
       src: catalogue.service
       dest: /etc/systemd/system/catalogue.service
    - name: Start and Enable the service
