@@ -1,4 +1,4 @@
-#ansible-playbook -i localhost, -e instances=['mongodb','catalogue','redis','user','cart','mysql','shipping','rabbitmq','payment','frontend'] roboshop.yaml
+#ansible-playbook -i localhost, roboshop.yaml \-e "instances=['mongodb','catalogue','redis','user','cart','mysql','shipping','rabbitmq','payment','frontend']"
 
 - name: create ec2 and r53 records
   hosts: all
@@ -73,10 +73,7 @@
    - name: Delete ec2 instance
      amazon.aws.ec2_instance:
       state: absent
-      region: us-east-1
-      filters:
-      "tag:Name": "{{ item }}-{{ env }}"
-      # name: "{{item}}-{{env}}"
+      name: "{{item}}-{{env}}"
      loop:
       - mongodb
       - catalogue
