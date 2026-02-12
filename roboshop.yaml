@@ -78,7 +78,8 @@
       wait: false
      loop: "{{ instances }}"
      when: action == "destroy"
-     
+     delegate_to: localhost
+     run_once: true
   #  - name: Delete ec2 instance
   #    amazon.aws.ec2_instance:
   #     state: absent
