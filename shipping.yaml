@@ -68,10 +68,10 @@
       state: started
       enabled: yes
 
-   - name: Install mysql package
-     ansible.builtin.dnf: 
-      name: "{{item}}"
-      state: present
+  #  - name: Install mysql package
+  #    ansible.builtin.dnf: 
+  #     name: "{{item}}"
+  #     state: present
 
    - name: import shipping data 
      community.mysql.mysql_db:
