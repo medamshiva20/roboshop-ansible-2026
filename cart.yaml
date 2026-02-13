@@ -30,6 +30,11 @@
       name: /app
       state: directory
 
+   - name: Delete existing catalogue zip code
+     ansible.builtin.file:
+      path: /tmp/cart.zip
+      state: absent
+
    - name: Download the cart application code
      ansible.builtin.get_url:
       url: https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip
