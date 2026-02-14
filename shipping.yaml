@@ -49,7 +49,7 @@
     args:
       chdir: /app
 
-  - name: install dependencies
+  - name: move and rename the shipping artifactory
     ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar 
     args:
       chdir: /app
